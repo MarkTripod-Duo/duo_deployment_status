@@ -103,7 +103,7 @@ def extract_components(status_components: list[DuoStatusComponent], deployment_i
 
 if __name__ == '__main__':
     args = get_arguments()
-    duo_deployment_id = args.duo_deployment_id
+    duo_deployment_id = args.duo_deployment_id.upper()
 
     logging.info('Duo Deployment ID: %s', duo_deployment_id)
 
