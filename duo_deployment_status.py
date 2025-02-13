@@ -60,14 +60,17 @@ def get_status_components() -> list[DuoStatusComponent]:
     status_components = []
     try:
         json_resp = httpx.get(STATUS_URL).json()
+
+        if 'components' in json_resp:
+            for status_component in json_resp['components']:
+                status_components.append(DuoStatusComponent(status_component))
+        logging.info("Collected %s components", len(status_components))
+
     except httpx.RequestError as exc:
         print(f"An error occurred while requesting {exc.request.url!r}.")
 
-    if 'components' in json_resp:
-        for component in json_resp['components']:
-            status_components.append(DuoStatusComponent(component))
-    logging.info("Collected %s components", len(status_components))
     return status_components
+
 
 
 def extract_components(status_components: list[DuoStatusComponent], deployment_id: str) -> list[DuoStatusComponent]:
